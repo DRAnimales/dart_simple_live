@@ -1,0 +1,27 @@
+name: Build macOS App
+on:
+  workflow_dispatch: # 允许你手动点击按钮触发
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build macOS App
+        # 暂时关闭混淆和压缩，以提高在老机器上的兼容性
+        run: flutter build macos --release --no-shrink
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Simple-Live-MacOS
+          path: build/macos/Build/Products/Release/
