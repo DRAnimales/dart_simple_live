@@ -1,6 +1,6 @@
 name: Build macOS App
 on:
-  workflow_dispatch: # 允许你手动点击按钮触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,14 +14,18 @@ jobs:
           channel: 'stable'
           
       - name: Install dependencies
+        # 核心修改：指定进入子目录执行
+        working-directory: simple_live_app
         run: flutter pub get
 
       - name: Build macOS App
-        # 暂时关闭混淆和压缩，以提高在老机器上的兼容性
-        run: flutter build macos --release --no-shrink
+        working-directory: simple_live_app
+        # 加上 --no-codesign 避免因为没有苹果开发者账号导致签名失败
+        run: flutter build macos --release --no-codesign
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Simple-Live-MacOS
-          path: build/macos/Build/Products/Release/
+          # 注意这里的路径也要对应子目录生成的产物
+          path: simple_live_app/build/macos/Build/Products/Release/
