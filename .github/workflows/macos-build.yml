@@ -14,18 +14,16 @@ jobs:
           channel: 'stable'
           
       - name: Install dependencies
-        # 核心修改：指定进入子目录执行
         working-directory: simple_live_app
         run: flutter pub get
 
       - name: Build macOS App
         working-directory: simple_live_app
-        # 加上 --no-codesign 避免因为没有苹果开发者账号导致签名失败
-        run: flutter build macos --release --no-codesign
+        # 移除 --no-codesign，使用默认构建
+        run: flutter build macos --release
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Simple-Live-MacOS
-          # 注意这里的路径也要对应子目录生成的产物
           path: simple_live_app/build/macos/Build/Products/Release/
