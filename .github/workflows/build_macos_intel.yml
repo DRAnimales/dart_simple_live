@@ -14,9 +14,9 @@ on:
 
 jobs:
   build-macos-intel:
-    # macos-13 = macOS Ventura (Intel x86_64)
-    # 确保编译出的二进制在 Intel Mac 上原生运行
-    runs-on: macos-13
+    # 先用 macos-latest 验证编译流程（产出 ARM 二进制）
+    # 确认编译成功后可尝试改回 macos-13 (Intel)
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
