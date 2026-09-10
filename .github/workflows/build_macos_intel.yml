@@ -1,0 +1,72 @@
+name: build-macos-intel
+
+# 专门为 Intel Mac 编译 macOS 版本
+# 在 GitHub Actions 的 macOS 13 (Intel) runner 上编译
+# 编译完成后可直接下载，拖入 Mac Mini 2010 运行
+
+on:
+  # 手动触发：在 GitHub Actions 页面点击 "Run workflow"
+  workflow_dispatch:
+  # 推送 Tag 时自动触发
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-macos-intel:
+    # macos-13 = macOS Ventura (Intel x86_64)
+    # 确保编译出的二进制在 Intel Mac 上原生运行
+    runs-on: macos-13
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Flutter 3.19.6 — 兼容 macOS 10.14+，使用 Skia 渲染器
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.6"
+          cache: true
+
+      - name: Enable macOS Desktop
+        run: flutter config --enable-macos-desktop
+
+      # 获取依赖
+      - name: Restore packages
+        run: |
+          cd simple_live_core
+          flutter pub get
+          cd ../simple_live_app
+          flutter pub get
+
+      # 安装打包工具
+      - name: Install appdmg
+        run: npm install -g appdmg
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      # 编译 macOS (Intel x86_64)
+      - name: Build macOS
+        run: |
+          cd simple_live_app
+          flutter_distributor package --platform macos --targets dmg,zip --skip-clean
+
+      # 上传为 Artifact（Actions 页面直接下载，保留 90 天）
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimpleLive-macOS-Intel
+          path: |
+            simple_live_app/build/dist/*/*.dmg
+            simple_live_app/build/dist/*/*.zip
+
+      # 推送 Tag 时自动上传到 Release
+      - name: Upload to Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            simple_live_app/build/dist/*/*.dmg
+            simple_live_app/build/dist/*/*.zip
+          generate_release_notes: true
