@@ -18,7 +18,7 @@ dependencies:
   hive: 2.2.3 #持久化存储
   hive_flutter: 1.1.0 #持久化存储
   logger: ^2.0.2 #日志
-  intl: ^0.19.0 #国际化
+  intl: ^0.20.3 #国际化
   qr_flutter: ^4.1.0 #二维码生成
   dynamic_color: ^1.6.8 #动态颜色
   path: any
@@ -43,24 +43,24 @@ dependencies:
   #     tag: v0.0.9
 
   #系统交互
-  package_info_plus: ^5.0.1 #包信息
+  package_info_plus: ^8.0.0 #包信息
   device_info_plus: ^9.1.1 #设备信息
   url_launcher: ^6.2.4 #打开链接
-  share_plus: ^7.2.2 #分享
+  share_plus: ^11.0.0 #分享
   path_provider: ^2.1.2 #常用路径
   cross_file: ^0.3.3 #跨平台文件
   permission_handler: ^11.3.0 #权限处理
   image_gallery_saver_plus: ^3.0.1 #图片保存到相册
-  screen_brightness: ^1.0.1 #亮度控制
+  screen_brightness: ^2.1.11 #亮度控制
   auto_orientation_v2: ^2.3.1 #屏幕方向
   wakelock_plus: ^1.1.4 #屏幕常亮
-  file_picker: ^6.1.1 #文件选择
+  file_picker: ^8.0.0 #文件选择
   window_manager: ^0.3.8 #窗口管理
   floating: ^5.0.0 #PIP画中画
   flutter_inappwebview: ^6.0.0 #WebView
   connectivity_plus: ^5.0.2 #网络状态
   qr_code_scanner_plus: ^2.0.0+1 #二维码扫描
-  volume_controller: ^2.0.7 #音量控制
+  volume_controller: ^3.0.2 #音量控制
 
   # 网络相关
   shelf: ^1.4.1

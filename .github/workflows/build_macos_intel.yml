@@ -21,11 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Flutter 3.19.6 — 兼容 macOS 10.14+，使用 Skia 渲染器
+      # Flutter 3.47.2 — 满足 dart_quickjs (Dart ^3.10.0) 要求
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.19.6"
+          flutter-version: "3.47.2"
           cache: true
 
       - name: Enable macOS Desktop

@@ -100,11 +100,9 @@ packages:
   dart_quickjs:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9d0228880aab0eb8a3802d2d6b2058cf2a0afc7e"
-      url: "https://github.com/xiaoyaocz/dart_quickjs"
-    source: git
+      path: "../simple_live_core/packages/dart_quickjs"
+      relative: true
+    source: path
     version: "1.0.0"
   dio:
     dependency: transitive
@@ -253,11 +251,9 @@ packages:
   native_toolchain_c:
     dependency: transitive
     description:
-      path: "packages/native_toolchain_c"
-      ref: "9d0228880aab0eb8a3802d2d6b2058cf2a0afc7e"
-      resolved-ref: "9d0228880aab0eb8a3802d2d6b2058cf2a0afc7e"
-      url: "https://github.com/xiaoyaocz/dart_quickjs"
-    source: git
+      path: "../simple_live_core/packages/dart_quickjs/packages/native_toolchain_c"
+      relative: true
+    source: path
     version: "0.17.4"
   node_preamble:
     dependency: transitive

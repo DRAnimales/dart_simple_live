@@ -38,7 +38,7 @@ dependencies:
   canvas_danmaku: ^0.2.7 #弹幕
 
   #系统交互
-  package_info_plus: ^5.0.1 #包信息
+  package_info_plus: ^8.0.0 #包信息
   url_launcher: ^6.2.4 #打开链接
   network_info_plus: ^4.0.2
   shelf: ^1.4.1
