@@ -38,16 +38,43 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await migrateData();
+
+  try {
+    await migrateData();
+  } catch (e, stack) {
+    Log.e('migrateData failed: $e\n$stack');
+  }
+
   await initWindow();
-  MediaKit.ensureInitialized();
-  await Hive.initFlutter(
-    (!Platform.isAndroid && !Platform.isIOS)
-        ? (await getApplicationSupportDirectory()).path
-        : null,
-  );
+
+  // 延迟 MediaKit 初始化，避免阻塞 UI 渲染
+  // 在旧硬件（如 Mac Mini 2010）上，MediaKit 初始化可能很慢或失败
+  Future.delayed(const Duration(milliseconds: 100), () {
+    try {
+      MediaKit.ensureInitialized();
+      Log.d('MediaKit initialized successfully');
+    } catch (e, stack) {
+      Log.e('MediaKit initialization failed: $e\n$stack');
+    }
+  });
+
+  try {
+    await Hive.initFlutter(
+      (!Platform.isAndroid && !Platform.isIOS)
+          ? (await getApplicationSupportDirectory()).path
+          : null,
+    );
+  } catch (e, stack) {
+    Log.e('Hive initialization failed: $e\n$stack');
+  }
+
   //初始化服务
-  await initServices();
+  try {
+    await initServices();
+  } catch (e, stack) {
+    Log.e('initServices failed: $e\n$stack');
+  }
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   //设置状态栏为透明
   SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(

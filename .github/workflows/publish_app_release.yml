@@ -99,8 +99,11 @@ jobs:
           path: |
             simple_live_app/build/ios/iphoneos/ios_no_sign.ipa
 
-      # 打包MAC
+      # 打包MAC (交叉编译 Intel x86_64，兼容 Mac Mini 2010)
       - name: Build MacOS
+        env:
+          ARCHS: x86_64
+          CMAKE_OSX_ARCHITECTURES: x86_64
         run: |
           cd simple_live_app
           flutter_distributor package --platform macos --targets dmg,zip --skip-clean
