@@ -42,7 +42,7 @@ void main() async {
   try {
     await migrateData();
   } catch (e, stack) {
-    Log.e('migrateData failed: $e\n$stack');
+    Log.e('migrateData failed: $e', stack);
   }
 
   await initWindow();
@@ -54,7 +54,7 @@ void main() async {
       MediaKit.ensureInitialized();
       Log.d('MediaKit initialized successfully');
     } catch (e, stack) {
-      Log.e('MediaKit initialization failed: $e\n$stack');
+      Log.e('MediaKit initialization failed: $e', stack);
     }
   });
 
@@ -65,14 +65,14 @@ void main() async {
           : null,
     );
   } catch (e, stack) {
-    Log.e('Hive initialization failed: $e\n$stack');
+    Log.e('Hive initialization failed: $e', stack);
   }
 
   //初始化服务
   try {
     await initServices();
   } catch (e, stack) {
-    Log.e('initServices failed: $e\n$stack');
+    Log.e('initServices failed: $e', stack);
   }
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
