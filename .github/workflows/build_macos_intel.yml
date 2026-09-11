@@ -1,8 +1,8 @@
 name: build-macos-intel
 
-# 专门为 Intel Mac 编译 macOS 版本
-# 在 GitHub Actions 的 macOS 13 (Intel) runner 上编译
-# 编译完成后可直接下载，拖入 Mac Mini 2010 运行
+# 在 M1 runner (macos-latest) 上交叉编译 Intel (x86_64) 版本
+# 通过 ARCHS / CMAKE_OSX_ARCHITECTURES 环境变量指定目标架构
+# 编译完成后可直接在 Mac Mini 2010 (Intel) 上运行
 
 on:
   # 手动触发：在 GitHub Actions 页面点击 "Run workflow"
@@ -14,8 +14,7 @@ on:
 
 jobs:
   build-macos-intel:
-    # 先用 macos-latest 验证编译流程（产出 ARM 二进制）
-    # 确认编译成功后可尝试改回 macos-13 (Intel)
+    # 使用 M1 runner，通过环境变量交叉编译 x86_64 (Intel) 二进制
     runs-on: macos-latest
 
     steps:
@@ -46,8 +45,13 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      # 编译 macOS (Intel x86_64)
+      # 编译 macOS (Intel x86_64) — 交叉编译
+      # ARCHS: Xcode/macOS 构建系统目标架构
+      # CMAKE_OSX_ARCHITECTURES: CMake 目标架构 (dart_quickjs native_toolchain_c)
       - name: Build macOS
+        env:
+          ARCHS: x86_64
+          CMAKE_OSX_ARCHITECTURES: x86_64
         run: |
           cd simple_live_app
           flutter_distributor package --platform macos --targets dmg,zip --skip-clean
